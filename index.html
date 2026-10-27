@@ -5,79 +5,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lextiz_0 — Constructor de software</title>
   <meta name="description" content="Portafolio de Lextiz_0: desarrollo web, Python, Roblox, bases de datos, automatización e inteligencia artificial." />
-  <meta name="theme-color" content="#0e0f0c" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230e0f0c'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%23c8f169'>L_</text></svg>" />
+  <meta name="theme-color" content="#0A1020" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230A1020'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%232563EA'>L_</text></svg>" />
   <link rel="preconnect" href="https://api.fontshare.com" />
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&f[]=satoshi@400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" />
   <link rel="stylesheet" href="styles.css" />
   <script>
-    (function(){var t=localStorage.getItem("theme");if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t;})();
+    (function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t;})();
   </script>
 </head>
 <body>
   <a class="skip" href="#main">Saltar al contenido</a>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
-  <header class="nav">
+  <header class="nav" id="nav">
     <div class="container nav-inner">
-      <a class="wordmark" href="#top" aria-label="Lextiz_0, inicio">Lextiz<span>_0</span></a>
+      <a class="wordmark" href="#top" aria-label="Lextiz_0, inicio"><span class="wm-mark" aria-hidden="true">L_</span><span>Lextiz<span class="wm-accent">_0</span></span></a>
       <nav aria-label="Principal">
         <ul class="nav-links">
-          <li><a href="#skills">Habilidades</a></li>
-          <li><a href="#projects">Proyectos</a></li>
-          <li><a href="#pipeline">Despliegue</a></li>
+          <li><a href="#skills" data-section="skills">Habilidades</a></li>
+          <li><a href="#projects" data-section="projects">Proyectos</a></li>
+          <li><a href="#process" data-section="process">Cómo funciona</a></li>
         </ul>
       </nav>
-      <button class="icon-btn" id="themeToggle" type="button" aria-label="Cambiar tema">
-        <i data-lucide="sun-moon" aria-hidden="true"></i>
+      <button class="theme-switch" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Activar modo claro">
+        <span class="ts-track" aria-hidden="true">
+          <span class="ts-icon ts-moon"><i data-lucide="moon"></i></span>
+          <span class="ts-icon ts-sun"><i data-lucide="sun"></i></span>
+          <span class="ts-thumb"></span>
+        </span>
+        <span class="ts-label" id="themeLabel">Oscuro</span>
       </button>
     </div>
   </header>
 
   <main id="main">
     <section class="hero" id="top">
+      <div class="hero-bg" aria-hidden="true">
+        <span class="orb orb-1"></span>
+        <span class="orb orb-2"></span>
+        <span class="grid"></span>
+      </div>
+
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Constructor de software · CDMX</p>
-          <h1>Convierto ideas en <em>productos que funcionan.</em></h1>
-          <p class="lead">Aplicaciones web, automatizaciones, sistemas para Roblox, bases de datos y soluciones con inteligencia artificial — de la arquitectura al despliegue.</p>
-          <div class="hero-actions">
-            <a class="btn primary" href="#projects">Ver proyectos <i data-lucide="arrow-down-right" aria-hidden="true"></i></a>
+          <p class="eyebrow anim" style="--d:0"><span class="pulse" aria-hidden="true"></span>Constructor de software · CDMX</p>
+          <h1 class="anim" style="--d:1">Convierto ideas en <span class="hl">productos que funcionan.</span></h1>
+          <p class="lead anim" style="--d:2">Creo páginas web, automatizaciones, sistemas para Roblox, bases de datos y herramientas con inteligencia artificial. Me encargo de todo: desde la idea hasta que está en línea.</p>
+          <div class="hero-actions anim" style="--d:3">
+            <a class="btn primary" href="#projects"><span>Ver mis proyectos</span> <i data-lucide="arrow-right" aria-hidden="true"></i></a>
             <a class="btn ghost" href="#skills">Qué puedo hacer</a>
           </div>
+          <ul class="hero-points anim" style="--d:4">
+            <li><i data-lucide="check" aria-hidden="true"></i>Web y apps</li>
+            <li><i data-lucide="check" aria-hidden="true"></i>Automatización</li>
+            <li><i data-lucide="check" aria-hidden="true"></i>IA aplicada</li>
+          </ul>
         </div>
 
-        <aside class="deploy-card" aria-labelledby="deploy-title">
-          <div class="deploy-head">
-            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span class="mono muted" id="deploy-title">último despliegue</span>
+        <aside class="news-card anim" style="--d:2" aria-labelledby="news-title">
+          <div class="news-head">
+            <span class="news-icon"><i data-lucide="sparkles" aria-hidden="true"></i></span>
+            <div>
+              <h2 id="news-title">Novedades</h2>
+              <p class="muted small" id="lastUpdate">Cargando…</p>
+            </div>
           </div>
-          <dl class="deploy-body" id="deployInfo">
-            <div><dt>estado</dt><dd><span class="status-dot"></span> en línea</dd></div>
-            <div><dt>commit</dt><dd class="skeleton">&nbsp;</dd></div>
-            <div><dt>mensaje</dt><dd class="skeleton">&nbsp;</dd></div>
-            <div><dt>publicado</dt><dd class="skeleton">&nbsp;</dd></div>
-          </dl>
-          <div class="deploy-files" id="deployFiles" hidden></div>
+          <ul class="news-list" id="newsList">
+            <li class="skeleton-line"></li>
+            <li class="skeleton-line"></li>
+            <li class="skeleton-line"></li>
+          </ul>
+          <a class="news-more" href="#projects">Ver todos los proyectos <i data-lucide="arrow-down" aria-hidden="true"></i></a>
         </aside>
       </div>
 
       <div class="container">
-        <ul class="stats" id="stats" aria-label="Resumen de proyectos">
-          <li><strong data-stat="total">–</strong><span>proyectos</span></li>
-          <li><strong data-stat="done">–</strong><span>terminados</span></li>
-          <li><strong data-stat="wip">–</strong><span>en desarrollo</span></li>
-          <li><strong data-stat="tech">–</strong><span>tecnologías</span></li>
+        <ul class="stats" aria-label="Resumen de proyectos">
+          <li class="reveal"><i data-lucide="folder-kanban" aria-hidden="true"></i><strong data-stat="total">0</strong><span>Proyectos</span></li>
+          <li class="reveal" style="--i:1"><i data-lucide="circle-check-big" aria-hidden="true"></i><strong data-stat="done">0</strong><span>Terminados</span></li>
+          <li class="reveal" style="--i:2"><i data-lucide="loader" aria-hidden="true"></i><strong data-stat="wip">0</strong><span>En desarrollo</span></li>
+          <li class="reveal" style="--i:3"><i data-lucide="layers" aria-hidden="true"></i><strong data-stat="tech">0</strong><span>Tecnologías</span></li>
         </ul>
       </div>
     </section>
 
     <section id="skills" class="section">
       <div class="container">
-        <header class="section-head">
-          <p class="kicker mono">01 / habilidades</p>
-          <h2>Lo que puedo hacer</h2>
-          <p class="section-lead">Desarrollo software de principio a fin: idea, arquitectura, código, base de datos y despliegue.</p>
+        <header class="section-head reveal">
+          <p class="kicker"><span>01</span> Habilidades</p>
+          <h2>Lo que puedo hacer por ti</h2>
+          <p class="section-lead">Desarrollo software completo: idea, diseño, código, base de datos y publicación.</p>
         </header>
         <div class="skills" id="skills-grid"></div>
       </div>
@@ -85,17 +104,18 @@
 
     <section id="projects" class="section alt">
       <div class="container">
-        <header class="section-head row">
+        <header class="section-head row reveal">
           <div>
-            <p class="kicker mono">02 / proyectos</p>
+            <p class="kicker"><span>02</span> Proyectos</p>
             <h2>Proyectos</h2>
-            <p class="section-lead">Cada archivo en la carpeta <code>projects/</code> aparece aquí automáticamente tras el siguiente despliegue.</p>
+            <p class="section-lead">Filtra por estado para ver en qué estoy trabajando.</p>
           </div>
           <div class="filters" role="group" aria-label="Filtrar por estado" id="filters">
-            <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">Todos</button>
-            <button type="button" class="chip" data-filter="Terminado" aria-pressed="false">Terminados</button>
-            <button type="button" class="chip" data-filter="En desarrollo" aria-pressed="false">En desarrollo</button>
-            <button type="button" class="chip" data-filter="Planeado" aria-pressed="false">Planeados</button>
+            <span class="filter-pill" aria-hidden="true"></span>
+            <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">Todos <span class="count" data-count="all"></span></button>
+            <button type="button" class="chip" data-filter="Terminado" aria-pressed="false">Terminados <span class="count" data-count="Terminado"></span></button>
+            <button type="button" class="chip" data-filter="En desarrollo" aria-pressed="false">En desarrollo <span class="count" data-count="En desarrollo"></span></button>
+            <button type="button" class="chip" data-filter="Planeado" aria-pressed="false">Planeados <span class="count" data-count="Planeado"></span></button>
           </div>
         </header>
 
@@ -104,56 +124,68 @@
             <article class="project skeleton-card"></article>
             <article class="project skeleton-card"></article>
           </div>
-          <aside class="chart-card" aria-labelledby="chart-title">
-            <h3 id="chart-title">Tecnologías más usadas</h3>
-            <p class="muted small">Calculado a partir de todos los proyectos.</p>
+          <aside class="chart-card reveal" aria-labelledby="chart-title">
+            <h3 id="chart-title"><i data-lucide="chart-bar" aria-hidden="true"></i> Tecnologías más usadas</h3>
+            <p class="muted small">Cuántos proyectos usan cada tecnología.</p>
             <div class="chart-wrap"><canvas id="projectsChart" role="img" aria-label="Gráfica de proyectos por tecnología"></canvas></div>
           </aside>
         </div>
       </div>
     </section>
 
-    <section id="pipeline" class="section">
+    <section id="process" class="section">
       <div class="container">
-        <header class="section-head">
-          <p class="kicker mono">03 / despliegue continuo</p>
-          <h2>Se actualiza solo</h2>
-          <p class="section-lead">Este sitio se compila y publica con GitHub Actions cada vez que se sube un archivo al repositorio. Sin pasos manuales.</p>
+        <header class="section-head reveal">
+          <p class="kicker"><span>03</span> Cómo funciona</p>
+          <h2>Siempre actualizado</h2>
+          <p class="section-lead">Cuando agrego un proyecto nuevo, esta página se actualiza sola en uno o dos minutos.</p>
         </header>
         <ol class="steps">
-          <li>
-            <span class="step-n mono">1</span>
-            <i data-lucide="upload" aria-hidden="true"></i>
-            <h3>Subes un archivo</h3>
-            <p>Un proyecto nuevo en <code>projects/</code>, una imagen en <code>assets/</code> o un cambio de diseño.</p>
+          <li class="reveal">
+            <span class="step-n">1</span>
+            <span class="step-icon"><i data-lucide="upload" aria-hidden="true"></i></span>
+            <h3>Subo un archivo</h3>
+            <p>Un proyecto nuevo, una imagen o un cambio de diseño.</p>
           </li>
-          <li>
-            <span class="step-n mono">2</span>
-            <i data-lucide="scan-search" aria-hidden="true"></i>
-            <h3>Se detecta el cambio</h3>
-            <p>El flujo identifica qué archivos son nuevos o cambiaron y los registra en el resumen.</p>
+          <li class="reveal" style="--i:1">
+            <span class="step-n">2</span>
+            <span class="step-icon"><i data-lucide="scan-search" aria-hidden="true"></i></span>
+            <h3>Se detecta</h3>
+            <p>El sistema identifica automáticamente qué cambió.</p>
           </li>
-          <li>
-            <span class="step-n mono">3</span>
-            <i data-lucide="hammer" aria-hidden="true"></i>
-            <h3>Se valida y compila</h3>
-            <p>Revisa que cada proyecto tenga los campos necesarios y genera la versión final del sitio.</p>
+          <li class="reveal" style="--i:2">
+            <span class="step-n">3</span>
+            <span class="step-icon"><i data-lucide="shield-check" aria-hidden="true"></i></span>
+            <h3>Se revisa</h3>
+            <p>Comprueba que todo esté correcto antes de publicarlo.</p>
           </li>
-          <li>
-            <span class="step-n mono">4</span>
-            <i data-lucide="globe" aria-hidden="true"></i>
+          <li class="reveal" style="--i:3">
+            <span class="step-n">4</span>
+            <span class="step-icon"><i data-lucide="globe" aria-hidden="true"></i></span>
             <h3>Se publica</h3>
-            <p>GitHub Pages sirve la nueva versión en uno o dos minutos.</p>
+            <p>La nueva versión queda en línea, sin pasos manuales.</p>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="container">
+        <div class="cta reveal">
+          <div>
+            <h2>¿Tienes una idea?</h2>
+            <p>Revisa mi trabajo en GitHub y hablemos de tu próximo proyecto.</p>
+          </div>
+          <a class="btn light" href="https://github.com/Lextiz-0" target="_blank" rel="noopener"><i data-lucide="github" aria-hidden="true"></i><span>Ver mi GitHub</span></a>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© <span id="year"></span> Lextiz_0</p>
-      <a href="https://github.com/Lextiz-0" class="footer-link"><i data-lucide="github" aria-hidden="true"></i> GitHub</a>
+      <p>© <span id="year"></span> Lextiz_0 · Hecho en Ciudad de México</p>
+      <a href="#top" class="footer-link">Volver arriba <i data-lucide="arrow-up" aria-hidden="true"></i></a>
     </div>
   </footer>
 

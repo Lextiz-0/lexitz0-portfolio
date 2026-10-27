@@ -1,15 +1,15 @@
 document.documentElement.classList.add("js");
 
 const skills = [
-  { icon: "globe", title: "Desarrollo web", text: "Sitios y aplicaciones web con HTML, CSS, JavaScript, React y Next.js." },
-  { icon: "terminal", title: "Python", text: "Scripts, automatizaciones, APIs con FastAPI, análisis de datos y herramientas internas." },
-  { icon: "gamepad-2", title: "Roblox y Luau", text: "Sistemas de juego, interfaces, economía, misiones, guardado de datos y herramientas de desarrollo." },
-  { icon: "database", title: "Bases de datos", text: "Modelado de datos, SQL, PostgreSQL, Supabase, migraciones y consultas." },
-  { icon: "workflow", title: "Automatización", text: "Flujos que reducen trabajo repetitivo: reportes, respaldos, integraciones y bots." },
-  { icon: "bot", title: "Inteligencia artificial", text: "Integración de modelos de IA para asistentes, generación de contenido, análisis y productividad." },
-  { icon: "chart-no-axes-combined", title: "Datos y métricas", text: "Dashboards, gráficas, KPIs y análisis para tomar mejores decisiones." },
-  { icon: "git-branch", title: "Git y GitHub", text: "Control de versiones, ramas, pull requests, revisiones de código y colaboración." },
-  { icon: "rocket", title: "Despliegue", text: "Publicación de aplicaciones e integración continua para que cada cambio llegue a producción solo." },
+  { icon: "globe", title: "Desarrollo web", text: "Sitios y aplicaciones web rápidas con HTML, CSS, JavaScript, React y Next.js." },
+  { icon: "terminal", title: "Python", text: "Scripts, automatizaciones, APIs con FastAPI y análisis de datos." },
+  { icon: "gamepad-2", title: "Roblox y Luau", text: "Sistemas de juego, interfaces, economía, misiones y guardado de datos." },
+  { icon: "database", title: "Bases de datos", text: "Diseño de datos con SQL, PostgreSQL y Supabase." },
+  { icon: "workflow", title: "Automatización", text: "Flujos que ahorran trabajo repetitivo: reportes, respaldos, integraciones y bots." },
+  { icon: "bot", title: "Inteligencia artificial", text: "Asistentes, generación de contenido y análisis con modelos de IA." },
+  { icon: "chart-no-axes-combined", title: "Datos y métricas", text: "Paneles, gráficas e indicadores para tomar mejores decisiones." },
+  { icon: "git-branch", title: "Git y GitHub", text: "Control de versiones, revisiones de código y trabajo en equipo." },
+  { icon: "rocket", title: "Publicación", text: "Pongo tus proyectos en línea y hago que se actualicen solos." },
 ];
 
 const STATUS = {
@@ -19,91 +19,151 @@ const STATUS = {
 };
 
 const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
 const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const isIconName = (v) => typeof v === "string" && /^[a-z0-9-]+$/.test(v);
 const renderIcons = () => window.lucide && window.lucide.createIcons();
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* Tema claro / oscuro */
-$("#themeToggle").addEventListener("click", () => {
-  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-  document.documentElement.dataset.theme = next;
-  localStorage.setItem("theme", next);
+/* ---------- Tema claro / oscuro ---------- */
+const themeBtn = $("#themeToggle");
+function syncThemeUI() {
+  const light = document.documentElement.dataset.theme === "light";
+  themeBtn.setAttribute("aria-checked", String(light));
+  themeBtn.setAttribute("aria-label", light ? "Activar modo oscuro" : "Activar modo claro");
+  $("#themeLabel").textContent = light ? "Claro" : "Oscuro";
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", light ? "#FFFFFF" : "#0A1020");
+}
+themeBtn.addEventListener("click", () => {
+  const root = document.documentElement;
+  root.classList.add("theme-anim");
+  root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem("theme", root.dataset.theme);
+  syncThemeUI();
   if (chart) styleChart();
+  setTimeout(() => root.classList.remove("theme-anim"), 500);
 });
+syncThemeUI();
 
-/* Navegación con borde al hacer scroll */
-const nav = $(".nav");
-addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 8), { passive: true });
+/* ---------- Navegación: borde, progreso y sección activa ---------- */
+const nav = $("#nav");
+const bar = $("#progress");
+function onScroll() {
+  nav.classList.toggle("scrolled", scrollY > 8);
+  const max = document.documentElement.scrollHeight - innerHeight;
+  bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+}
+addEventListener("scroll", onScroll, { passive: true });
+onScroll();
 
-/* Habilidades */
+const navLinks = $$(".nav-links a");
+const sectionObserver = new IntersectionObserver(
+  (entries) => entries.forEach((e) => {
+    if (e.isIntersecting) navLinks.forEach((a) => a.classList.toggle("active", a.dataset.section === e.target.id));
+  }),
+  { rootMargin: "-45% 0px -50% 0px" }
+);
+["skills", "projects", "process"].forEach((id) => sectionObserver.observe(document.getElementById(id)));
+
+/* ---------- Habilidades ---------- */
 $("#skills-grid").innerHTML = skills
   .map((s, i) => `
-    <article class="skill reveal">
-      <div class="skill-top">
-        <span class="skill-icon"><i data-lucide="${s.icon}" aria-hidden="true"></i></span>
-        <span class="skill-n mono">${String(i + 1).padStart(2, "0")}</span>
-      </div>
+    <article class="skill reveal" style="--i:${i % 3}">
+      <span class="skill-icon"><i data-lucide="${s.icon}" aria-hidden="true"></i></span>
       <h3>${esc(s.title)}</h3>
       <p>${esc(s.text)}</p>
     </article>`)
   .join("");
 
-/* Proyectos */
+/* ---------- Proyectos ---------- */
 let projects = [];
 let newFiles = new Set();
 let chart;
+let currentFilter = "all";
 
-function projectCard(p) {
+const isNew = (p) => newFiles.has(`projects/${p.id}.json`);
+
+function projectCard(p, i) {
   const st = STATUS[p.status] || { cls: "plan", label: p.status };
   const icon = isIconName(p.icon) ? p.icon : "folder-git-2";
-  const isNew = newFiles.has(`projects/${p.id}.json`);
   const links = [
     p.url && `<a href="${esc(p.url)}" target="_blank" rel="noopener"><i data-lucide="external-link" aria-hidden="true"></i>Ver demo</a>`,
-    p.repo && `<a href="${esc(p.repo)}" target="_blank" rel="noopener"><i data-lucide="code-xml" aria-hidden="true"></i>Código</a>`,
+    p.repo && `<a href="${esc(p.repo)}" target="_blank" rel="noopener"><i data-lucide="code-xml" aria-hidden="true"></i>Ver código</a>`,
   ].filter(Boolean).join("");
   return `
-    <article class="project">
+    <article class="project" style="--i:${i}">
       <div class="project-top">
         <span class="project-icon"><i data-lucide="${icon}" aria-hidden="true"></i></span>
-        <span style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
-          ${isNew ? `<span class="badge new">Nuevo</span>` : ""}
+        <span class="badges">
+          ${isNew(p) ? `<span class="badge new">Nuevo</span>` : ""}
           <span class="badge ${st.cls}">${esc(st.label)}</span>
         </span>
       </div>
       <h3>${esc(p.name)}</h3>
       <p>${esc(p.description)}</p>
-      <ul class="tags">${(p.tech || []).map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+      <ul class="tags" aria-label="Tecnologías">${(p.tech || []).map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
       ${links ? `<div class="project-links">${links}</div>` : ""}
     </article>`;
 }
 
-function renderProjects(filter = "all") {
-  const list = filter === "all" ? projects : projects.filter((p) => p.status === filter);
+function renderProjects() {
+  const list = currentFilter === "all" ? projects : projects.filter((p) => p.status === currentFilter);
   $("#projects-grid").innerHTML = list.length
     ? list.map(projectCard).join("")
-    : `<p class="empty">No hay proyectos con este estado todavía.</p>`;
+    : `<div class="empty"><i data-lucide="inbox" aria-hidden="true"></i><strong>Aún no hay proyectos aquí</strong><span>Pronto agregaré proyectos con este estado.</span></div>`;
   renderIcons();
 }
 
-$("#filters").addEventListener("click", (e) => {
-  const btn = e.target.closest(".chip");
-  if (!btn) return;
-  document.querySelectorAll(".chip").forEach((c) => {
-    const on = c === btn;
-    c.classList.toggle("is-active", on);
-    c.setAttribute("aria-pressed", on);
-  });
-  renderProjects(btn.dataset.filter);
+/* Efecto de luz que sigue al cursor en las tarjetas */
+$("#projects-grid").addEventListener("pointermove", (e) => {
+  const card = e.target.closest(".project");
+  if (!card) return;
+  const r = card.getBoundingClientRect();
+  card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+  card.style.setProperty("--my", `${e.clientY - r.top}px`);
 });
 
-function cssVar(name) {
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+/* Filtros con indicador deslizante */
+const filters = $("#filters");
+const pill = $(".filter-pill");
+function movePill() {
+  const active = filters.querySelector(".chip.is-active");
+  if (!active) return;
+  pill.style.width = `${active.offsetWidth}px`;
+  pill.style.height = `${active.offsetHeight}px`;
+  pill.style.transform = `translate(${active.offsetLeft}px, ${active.offsetTop}px)`;
+}
+filters.addEventListener("click", (e) => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  $$(".chip").forEach((c) => {
+    const on = c === btn;
+    c.classList.toggle("is-active", on);
+    c.setAttribute("aria-pressed", String(on));
+  });
+  currentFilter = btn.dataset.filter;
+  movePill();
+  renderProjects();
+});
+addEventListener("resize", movePill);
+document.fonts && document.fonts.ready.then(movePill);
+movePill();
+
+function renderCounts() {
+  $$("[data-count]").forEach((el) => {
+    const k = el.dataset.count;
+    el.textContent = k === "all" ? projects.length : projects.filter((p) => p.status === k).length;
+  });
+  movePill();
 }
 
+/* Gráfica */
+const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
 function styleChart() {
-  const ds = chart.data.datasets[0];
-  ds.backgroundColor = cssVar("--accent");
-  chart.options.scales.x.ticks.color = cssVar("--muted");
+  chart.data.datasets[0].backgroundColor = cssVar("--accent");
+  chart.data.datasets[0].hoverBackgroundColor = cssVar("--accent-text");
+  chart.options.scales.x.ticks.color = cssVar("--faint");
   chart.options.scales.y.ticks.color = cssVar("--text");
   chart.options.scales.x.grid.color = cssVar("--border");
   chart.update();
@@ -119,71 +179,91 @@ function renderChart() {
     type: "bar",
     data: {
       labels: entries.map((e) => e[0]),
-      datasets: [{ label: "Proyectos", data: entries.map((e) => e[1]), borderRadius: 6, barThickness: 14 }],
+      datasets: [{ label: "Proyectos", data: entries.map((e) => e[1]), borderRadius: 999, borderSkipped: false, barThickness: 12 }],
     },
     options: {
       indexAxis: "y",
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ` ${c.raw} proyecto${c.raw === 1 ? "" : "s"}` } } },
+      animation: reduceMotion ? false : { duration: 1100, easing: "easeOutQuart", delay: (c) => c.dataIndex * 60 },
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: "#0A1020", padding: 10, cornerRadius: 10, displayColors: false, callbacks: { label: (c) => `${c.raw} proyecto${c.raw === 1 ? "" : "s"}` } },
+      },
       scales: {
         x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: "#333" }, border: { display: false } },
-        y: { grid: { display: false }, border: { display: false } },
+        y: { grid: { display: false }, border: { display: false }, ticks: { font: { weight: 600 } } },
       },
     },
   });
   styleChart();
 }
 
-function renderStats() {
-  const tech = new Set(projects.flatMap((p) => p.tech || []));
-  const set = (k, v) => ($(`[data-stat="${k}"]`).textContent = v);
-  set("total", projects.length);
-  set("done", projects.filter((p) => p.status === "Terminado").length);
-  set("wip", projects.filter((p) => p.status === "En desarrollo").length);
-  set("tech", tech.size);
+/* Contadores animados */
+function countUp(el, to) {
+  if (reduceMotion || to === 0) return (el.textContent = to);
+  const start = performance.now();
+  const dur = 1200;
+  const step = (now) => {
+    const t = Math.min(1, (now - start) / dur);
+    el.textContent = Math.round(to * (1 - Math.pow(1 - t, 3)));
+    if (t < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
 }
 
-/* Información del último despliegue */
+function renderStats() {
+  const values = {
+    total: projects.length,
+    done: projects.filter((p) => p.status === "Terminado").length,
+    wip: projects.filter((p) => p.status === "En desarrollo").length,
+    tech: new Set(projects.flatMap((p) => p.tech || [])).size,
+  };
+  const stats = $(".stats");
+  const run = () => Object.entries(values).forEach(([k, v]) => countUp($(`[data-stat="${k}"]`), v));
+  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { run(); io.disconnect(); } }, { threshold: 0.3 });
+  io.observe(stats);
+}
+
+/* ---------- Novedades ---------- */
 function timeAgo(iso) {
   const diff = (new Date(iso) - Date.now()) / 1000;
   const rtf = new Intl.RelativeTimeFormat("es", { numeric: "auto" });
-  const units = [["year", 31536000], ["month", 2592000], ["day", 86400], ["hour", 3600], ["minute", 60]];
+  const units = [["year", 31536000], ["month", 2592000], ["week", 604800], ["day", 86400], ["hour", 3600], ["minute", 60]];
   for (const [u, s] of units) if (Math.abs(diff) >= s) return rtf.format(Math.round(diff / s), u);
   return "hace un momento";
 }
 
-function renderDeploy(info) {
-  const commit = info.runUrl
-    ? `<a href="${esc(info.runUrl)}" target="_blank" rel="noopener">${esc(info.commit)}${info.run ? ` · #${esc(info.run)}` : ""}</a>`
-    : esc(info.commit);
-  const date = new Date(info.builtAt);
-  $("#deployInfo").innerHTML = `
-    <div><dt>estado</dt><dd><span class="status-dot"></span>en línea</dd></div>
-    <div><dt>commit</dt><dd>${commit}</dd></div>
-    <div><dt>mensaje</dt><dd title="${esc(info.message)}">${esc(info.message)}</dd></div>
-    <div><dt>publicado</dt><dd title="${date.toLocaleString("es-MX")}">${timeAgo(info.builtAt)}</dd></div>`;
-
-  const visible = (f) => !/(^|\/)\./.test(f) && !f.startsWith("scripts/");
-  const added = (info.added || []).filter(visible).slice(0, 4);
-  const modified = (info.modified || []).filter(visible).slice(0, Math.max(0, 4 - added.length));
-  if (added.length || modified.length) {
-    const box = $("#deployFiles");
-    box.hidden = false;
-    box.innerHTML = `<p>archivos en este despliegue</p><ul>
-      ${added.map((f) => `<li><b>+</b>${esc(f)}</li>`).join("")}
-      ${modified.map((f) => `<li class="mod"><b>~</b>${esc(f)}</li>`).join("")}
-    </ul>`;
-  }
+function renderNews(info) {
+  $("#lastUpdate").textContent = info?.builtAt ? `Actualizado ${timeAgo(info.builtAt)}` : "Lo más reciente";
+  const recent = [...projects]
+    .sort((a, b) => (isNew(b) - isNew(a)) || new Date(b.updated) - new Date(a.updated))
+    .slice(0, 3);
+  $("#newsList").innerHTML = recent.length
+    ? recent.map((p, i) => {
+        const st = STATUS[p.status] || { cls: "plan", label: p.status };
+        const icon = isIconName(p.icon) ? p.icon : "folder-git-2";
+        return `
+          <li class="news-item" style="--i:${i}">
+            <span class="ni-icon"><i data-lucide="${icon}" aria-hidden="true"></i></span>
+            <span class="ni-body">
+              <strong>${esc(p.name)}</strong>
+              <span class="meta">${isNew(p) ? "Agregado" : "Actualizado"} ${p.updated ? timeAgo(p.updated) : ""}</span>
+            </span>
+            <span class="badge ${isNew(p) ? "new" : st.cls}">${isNew(p) ? "Nuevo" : esc(st.label)}</span>
+          </li>`;
+      }).join("")
+    : `<li class="muted small">Pronto habrá novedades.</li>`;
+  renderIcons();
 }
 
+/* ---------- Carga de datos ---------- */
 async function init() {
+  let info = null;
   try {
-    const info = await fetch("build-info.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null));
-    if (info) {
-      newFiles = new Set(info.added || []);
-      renderDeploy(info);
-    }
+    const r = await fetch("build-info.json", { cache: "no-store" });
+    if (r.ok) info = await r.json();
+    newFiles = new Set(info?.added || []);
   } catch {}
 
   try {
@@ -191,10 +271,16 @@ async function init() {
     if (!res.ok) throw new Error(res.status);
     projects = await res.json();
     renderProjects();
+    renderCounts();
     renderStats();
-    renderChart();
+    renderNews(info);
+    const chartIo = new IntersectionObserver(([e]) => { if (e.isIntersecting) { renderChart(); chartIo.disconnect(); } }, { threshold: 0.2 });
+    chartIo.observe($("#projectsChart"));
   } catch {
-    $("#projects-grid").innerHTML = `<p class="empty">No se pudieron cargar los proyectos. Intenta recargar la página.</p>`;
+    $("#projects-grid").innerHTML = `<div class="empty"><i data-lucide="wifi-off" aria-hidden="true"></i><strong>No se pudieron cargar los proyectos</strong><span>Intenta recargar la página.</span></div>`;
+    $("#newsList").innerHTML = `<li class="muted small">No se pudieron cargar las novedades.</li>`;
+    $("#lastUpdate").textContent = "";
+    renderIcons();
   }
 }
 
@@ -202,6 +288,9 @@ $("#year").textContent = new Date().getFullYear();
 renderIcons();
 init();
 
-/* Aparición suave al hacer scroll */
-const io = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && (e.target.classList.add("in"), io.unobserve(e.target))), { threshold: 0.12 });
-document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+/* ---------- Aparición al hacer scroll ---------- */
+const io = new IntersectionObserver(
+  (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }),
+  { threshold: 0.12 }
+);
+$$(".reveal").forEach((el) => io.observe(el));
