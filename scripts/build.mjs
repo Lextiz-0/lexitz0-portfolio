@@ -19,7 +19,7 @@ const lastChange = (path) => {
 
 const ROOT = process.cwd();
 const OUT = join(ROOT, "dist");
-const STATIC_FILES = ["index.html", "styles.css", "app.js"];
+const STATIC_FILES = ["index.html", "styles.css", "i18n.js", "app.js"];
 const REQUIRED = ["name", "description", "tech", "status"];
 const STATUSES = ["Terminado", "En desarrollo", "Planeado"];
 
@@ -76,12 +76,11 @@ for (const f of STATIC_FILES) {
   hashes[f] = createHash("sha256").update(content).digest("hex").slice(0, 10);
 }
 let html = readFileSync(join(ROOT, "index.html"), "utf8");
-html = html
-  .replace('href="styles.css"', `href="styles.css?v=${hashes["styles.css"]}"`)
-  .replace('src="app.js"', `src="app.js?v=${hashes["app.js"]}"`);
+for (const f of STATIC_FILES.filter((f) => f !== "index.html")) {
+  html = html.replace(new RegExp(`(href|src)="${f.replace(".", "\\.")}"`), `$1="${f}?v=${hashes[f]}"`);
+  cpSync(join(ROOT, f), join(OUT, f));
+}
 writeFileSync(join(OUT, "index.html"), html);
-cpSync(join(ROOT, "styles.css"), join(OUT, "styles.css"));
-cpSync(join(ROOT, "app.js"), join(OUT, "app.js"));
 if (existsSync(join(ROOT, "assets"))) cpSync(join(ROOT, "assets"), join(OUT, "assets"), { recursive: true });
 
 // 3. Información del despliegue (la llena GitHub Actions)

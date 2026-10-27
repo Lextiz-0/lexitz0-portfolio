@@ -7,5 +7,19 @@
     "PostgreSQL"
   ],
   "status": "Planeado",
-  "icon": "database"
+  "icon": "database",
+  "translations": {
+    "en": {
+      "name": "Supabase dashboard",
+      "description": "Web app with authentication, a database and an admin panel."
+    },
+    "pt": {
+      "name": "Painel com Supabase",
+      "description": "Aplicação web com autenticação, banco de dados e painel de administração."
+    },
+    "fr": {
+      "name": "Tableau de bord Supabase",
+      "description": "Application web avec authentification, base de données et panneau d’administration."
+    }
+  }
 }

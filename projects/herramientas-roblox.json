@@ -7,5 +7,19 @@
     "Git"
   ],
   "status": "Planeado",
-  "icon": "gamepad-2"
+  "icon": "gamepad-2",
+  "translations": {
+    "en": {
+      "name": "Roblox tools",
+      "description": "Luau scripts and modules that speed up game development in Roblox Studio."
+    },
+    "pt": {
+      "name": "Ferramentas para Roblox",
+      "description": "Scripts e módulos Luau para acelerar o desenvolvimento de jogos no Roblox Studio."
+    },
+    "fr": {
+      "name": "Outils pour Roblox",
+      "description": "Scripts et modules Luau pour accélérer le développement de jeux dans Roblox Studio."
+    }
+  }
 }

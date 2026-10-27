@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lextiz_0 — Constructor de software</title>
-  <meta name="description" content="Portafolio de Lextiz_0: desarrollo web, Python, Roblox, bases de datos, automatización e inteligencia artificial." />
+  <title data-i18n="meta.title">Lextiz_0 — Constructor de software</title>
+  <meta name="description" data-i18n-attr="content:meta.desc" content="Portafolio de Lextiz_0: desarrollo web, Python, Roblox, bases de datos, automatización e inteligencia artificial." />
   <meta name="theme-color" content="#0A1020" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230A1020'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%232563EA'>L_</text></svg>" />
   <link rel="preconnect" href="https://api.fontshare.com" />
@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" />
   <link rel="stylesheet" href="styles.css" />
   <script>
-    (function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t;})();
+    (function(){var d=document.documentElement,t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";d.dataset.theme=t;var l=localStorage.getItem("lang")||(navigator.language||"es").slice(0,2);d.lang=["es","en","pt","fr"].indexOf(l)>-1?l:"es";})();
   </script>
 </head>
 <body>
-  <a class="skip" href="#main">Saltar al contenido</a>
+  <a class="skip" href="#main" data-i18n="skip">Saltar al contenido</a>
   <div class="progress" id="progress" aria-hidden="true"></div>
 
   <header class="nav" id="nav">
@@ -24,11 +24,18 @@
       <a class="wordmark" href="#top" aria-label="Lextiz_0, inicio"><span class="wm-mark" aria-hidden="true">L_</span><span>Lextiz<span class="wm-accent">_0</span></span></a>
       <nav aria-label="Principal">
         <ul class="nav-links">
-          <li><a href="#skills" data-section="skills">Habilidades</a></li>
-          <li><a href="#projects" data-section="projects">Proyectos</a></li>
-          <li><a href="#process" data-section="process">Cómo funciona</a></li>
+          <li><a href="#skills" data-section="skills" data-i18n="nav.skills">Habilidades</a></li>
+          <li><a href="#projects" data-section="projects" data-i18n="nav.projects">Proyectos</a></li>
+          <li><a href="#process" data-section="process" data-i18n="nav.process">Cómo funciona</a></li>
+          <li><a href="#contact" data-section="contact" class="nav-cta" data-i18n="nav.contact">Cotizar</a></li>
         </ul>
       </nav>
+      <div class="lang" id="lang">
+        <button class="lang-btn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false" data-i18n-attr="aria-label:lang.label" aria-label="Idioma">
+          <i data-lucide="languages" aria-hidden="true"></i><span id="langCode">ES</span><i data-lucide="chevron-down" class="chev" aria-hidden="true"></i>
+        </button>
+        <ul class="lang-menu" id="langMenu" role="listbox" hidden></ul>
+      </div>
       <button class="theme-switch" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Activar modo claro">
         <span class="ts-track" aria-hidden="true">
           <span class="ts-icon ts-moon"><i data-lucide="moon"></i></span>
@@ -50,17 +57,17 @@
 
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow anim" style="--d:0"><span class="pulse" aria-hidden="true"></span>Constructor de software · CDMX</p>
-          <h1 class="anim" style="--d:1">Convierto ideas en <span class="hl">productos que funcionan.</span></h1>
-          <p class="lead anim" style="--d:2">Creo páginas web, automatizaciones, sistemas para Roblox, bases de datos y herramientas con inteligencia artificial. Me encargo de todo: desde la idea hasta que está en línea.</p>
+          <p class="eyebrow anim" style="--d:0"><span class="pulse" aria-hidden="true"></span><span data-i18n="hero.eyebrow">Constructor de software · CDMX</span></p>
+          <h1 class="anim" style="--d:1" data-i18n-html="hero.title">Convierto ideas en <span class="hl">productos que funcionan.</span></h1>
+          <p class="lead anim" style="--d:2" data-i18n="hero.lead">Creo páginas web, automatizaciones, sistemas para Roblox, bases de datos y herramientas con inteligencia artificial. Me encargo de todo: desde la idea hasta que está en línea.</p>
           <div class="hero-actions anim" style="--d:3">
-            <a class="btn primary" href="#projects"><span>Ver mis proyectos</span> <i data-lucide="arrow-right" aria-hidden="true"></i></a>
-            <a class="btn ghost" href="#skills">Qué puedo hacer</a>
+            <a class="btn primary" href="#contact"><span data-i18n="hero.cta1">Cotizar mi proyecto</span> <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+            <a class="btn ghost" href="#projects" data-i18n="hero.cta2">Ver proyectos</a>
           </div>
           <ul class="hero-points anim" style="--d:4">
-            <li><i data-lucide="check" aria-hidden="true"></i>Web y apps</li>
-            <li><i data-lucide="check" aria-hidden="true"></i>Automatización</li>
-            <li><i data-lucide="check" aria-hidden="true"></i>IA aplicada</li>
+            <li><i data-lucide="check" aria-hidden="true"></i><span data-i18n="hero.p1">Web y apps</span></li>
+            <li><i data-lucide="check" aria-hidden="true"></i><span data-i18n="hero.p2">Automatización</span></li>
+            <li><i data-lucide="check" aria-hidden="true"></i><span data-i18n="hero.p3">IA aplicada</span></li>
           </ul>
         </div>
 
@@ -68,7 +75,7 @@
           <div class="news-head">
             <span class="news-icon"><i data-lucide="sparkles" aria-hidden="true"></i></span>
             <div>
-              <h2 id="news-title">Novedades</h2>
+              <h2 id="news-title" data-i18n="news.title">Novedades</h2>
               <p class="muted small" id="lastUpdate">Cargando…</p>
             </div>
           </div>
@@ -77,16 +84,16 @@
             <li class="skeleton-line"></li>
             <li class="skeleton-line"></li>
           </ul>
-          <a class="news-more" href="#projects">Ver todos los proyectos <i data-lucide="arrow-down" aria-hidden="true"></i></a>
+          <a class="news-more" href="#projects"><span data-i18n="news.more">Ver todos los proyectos</span> <i data-lucide="arrow-down" aria-hidden="true"></i></a>
         </aside>
       </div>
 
       <div class="container">
-        <ul class="stats" aria-label="Resumen de proyectos">
-          <li class="reveal"><i data-lucide="folder-kanban" aria-hidden="true"></i><strong data-stat="total">0</strong><span>Proyectos</span></li>
-          <li class="reveal" style="--i:1"><i data-lucide="circle-check-big" aria-hidden="true"></i><strong data-stat="done">0</strong><span>Terminados</span></li>
-          <li class="reveal" style="--i:2"><i data-lucide="loader" aria-hidden="true"></i><strong data-stat="wip">0</strong><span>En desarrollo</span></li>
-          <li class="reveal" style="--i:3"><i data-lucide="layers" aria-hidden="true"></i><strong data-stat="tech">0</strong><span>Tecnologías</span></li>
+        <ul class="stats" data-i18n-attr="aria-label:stats.label" aria-label="Resumen de proyectos">
+          <li class="reveal"><i data-lucide="folder-kanban" aria-hidden="true"></i><strong data-stat="total">0</strong><span data-i18n="stats.total">Proyectos</span></li>
+          <li class="reveal" style="--i:1"><i data-lucide="circle-check-big" aria-hidden="true"></i><strong data-stat="done">0</strong><span data-i18n="stats.done">Terminados</span></li>
+          <li class="reveal" style="--i:2"><i data-lucide="loader" aria-hidden="true"></i><strong data-stat="wip">0</strong><span data-i18n="stats.wip">En desarrollo</span></li>
+          <li class="reveal" style="--i:3"><i data-lucide="layers" aria-hidden="true"></i><strong data-stat="tech">0</strong><span data-i18n="stats.tech">Tecnologías</span></li>
         </ul>
       </div>
     </section>
@@ -94,9 +101,9 @@
     <section id="skills" class="section">
       <div class="container">
         <header class="section-head reveal">
-          <p class="kicker"><span>01</span> Habilidades</p>
-          <h2>Lo que puedo hacer por ti</h2>
-          <p class="section-lead">Desarrollo software completo: idea, diseño, código, base de datos y publicación.</p>
+          <p class="kicker"><span>01</span> <b data-i18n="skills.kicker">Habilidades</b></p>
+          <h2 data-i18n="skills.title">Lo que puedo hacer por ti</h2>
+          <p class="section-lead" data-i18n="skills.lead"></p>
         </header>
         <div class="skills" id="skills-grid"></div>
       </div>
@@ -106,16 +113,16 @@
       <div class="container">
         <header class="section-head row reveal">
           <div>
-            <p class="kicker"><span>02</span> Proyectos</p>
-            <h2>Proyectos</h2>
-            <p class="section-lead">Filtra por estado para ver en qué estoy trabajando.</p>
+            <p class="kicker"><span>02</span> <b data-i18n="projects.kicker">Proyectos</b></p>
+            <h2 data-i18n="projects.title">Proyectos</h2>
+            <p class="section-lead" data-i18n="projects.lead"></p>
           </div>
-          <div class="filters" role="group" aria-label="Filtrar por estado" id="filters">
+          <div class="filters" role="group" data-i18n-attr="aria-label:filter.label" aria-label="Filtrar por estado" id="filters">
             <span class="filter-pill" aria-hidden="true"></span>
-            <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">Todos <span class="count" data-count="all"></span></button>
-            <button type="button" class="chip" data-filter="Terminado" aria-pressed="false">Terminados <span class="count" data-count="Terminado"></span></button>
-            <button type="button" class="chip" data-filter="En desarrollo" aria-pressed="false">En desarrollo <span class="count" data-count="En desarrollo"></span></button>
-            <button type="button" class="chip" data-filter="Planeado" aria-pressed="false">Planeados <span class="count" data-count="Planeado"></span></button>
+            <button type="button" class="chip is-active" data-filter="all" aria-pressed="true"><span data-i18n="filter.all">Todos</span> <span class="count" data-count="all"></span></button>
+            <button type="button" class="chip" data-filter="Terminado" aria-pressed="false"><span data-i18n="filter.done">Terminados</span> <span class="count" data-count="Terminado"></span></button>
+            <button type="button" class="chip" data-filter="En desarrollo" aria-pressed="false"><span data-i18n="filter.wip">En desarrollo</span> <span class="count" data-count="En desarrollo"></span></button>
+            <button type="button" class="chip" data-filter="Planeado" aria-pressed="false"><span data-i18n="filter.plan">Planeados</span> <span class="count" data-count="Planeado"></span></button>
           </div>
         </header>
 
@@ -125,9 +132,9 @@
             <article class="project skeleton-card"></article>
           </div>
           <aside class="chart-card reveal" aria-labelledby="chart-title">
-            <h3 id="chart-title"><i data-lucide="chart-bar" aria-hidden="true"></i> Tecnologías más usadas</h3>
-            <p class="muted small">Cuántos proyectos usan cada tecnología.</p>
-            <div class="chart-wrap"><canvas id="projectsChart" role="img" aria-label="Gráfica de proyectos por tecnología"></canvas></div>
+            <h3 id="chart-title"><i data-lucide="chart-bar" aria-hidden="true"></i> <span data-i18n="chart.title">Tecnologías más usadas</span></h3>
+            <p class="muted small" data-i18n="chart.lead"></p>
+            <div class="chart-wrap"><canvas id="projectsChart" role="img" data-i18n-attr="aria-label:chart.aria" aria-label="Gráfica de proyectos por tecnología"></canvas></div>
           </aside>
         </div>
       </div>
@@ -136,47 +143,72 @@
     <section id="process" class="section">
       <div class="container">
         <header class="section-head reveal">
-          <p class="kicker"><span>03</span> Cómo funciona</p>
-          <h2>Siempre actualizado</h2>
-          <p class="section-lead">Cuando agrego un proyecto nuevo, esta página se actualiza sola en uno o dos minutos.</p>
+          <p class="kicker"><span>03</span> <b data-i18n="process.kicker">Cómo funciona</b></p>
+          <h2 data-i18n="process.title">Siempre actualizado</h2>
+          <p class="section-lead" data-i18n="process.lead"></p>
         </header>
         <ol class="steps">
           <li class="reveal">
             <span class="step-n">1</span>
             <span class="step-icon"><i data-lucide="upload" aria-hidden="true"></i></span>
-            <h3>Subo un archivo</h3>
-            <p>Un proyecto nuevo, una imagen o un cambio de diseño.</p>
+            <h3 data-step="0" data-part="0">Subo un archivo</h3>
+            <p data-step="0" data-part="1">Un proyecto nuevo, una imagen o un cambio de diseño.</p>
           </li>
           <li class="reveal" style="--i:1">
             <span class="step-n">2</span>
             <span class="step-icon"><i data-lucide="scan-search" aria-hidden="true"></i></span>
-            <h3>Se detecta</h3>
-            <p>El sistema identifica automáticamente qué cambió.</p>
+            <h3 data-step="1" data-part="0">Se detecta</h3>
+            <p data-step="1" data-part="1">El sistema identifica automáticamente qué cambió.</p>
           </li>
           <li class="reveal" style="--i:2">
             <span class="step-n">3</span>
             <span class="step-icon"><i data-lucide="shield-check" aria-hidden="true"></i></span>
-            <h3>Se revisa</h3>
-            <p>Comprueba que todo esté correcto antes de publicarlo.</p>
+            <h3 data-step="2" data-part="0">Se revisa</h3>
+            <p data-step="2" data-part="1">Comprueba que todo esté correcto antes de publicarlo.</p>
           </li>
           <li class="reveal" style="--i:3">
             <span class="step-n">4</span>
             <span class="step-icon"><i data-lucide="globe" aria-hidden="true"></i></span>
-            <h3>Se publica</h3>
-            <p>La nueva versión queda en línea, sin pasos manuales.</p>
+            <h3 data-step="3" data-part="0">Se publica</h3>
+            <p data-step="3" data-part="1">La nueva versión queda en línea, sin pasos manuales.</p>
           </li>
         </ol>
       </div>
     </section>
 
-    <section class="section cta-section">
-      <div class="container">
-        <div class="cta reveal">
-          <div>
-            <h2>¿Tienes una idea?</h2>
-            <p>Revisa mi trabajo en GitHub y hablemos de tu próximo proyecto.</p>
+    <section id="contact" class="section contact">
+      <div class="container contact-grid">
+        <div class="contact-info reveal">
+          <p class="kicker"><span>04</span> <b data-i18n="contact.kicker">Contacto</b></p>
+          <h2 data-i18n="contact.title">Cotiza tu proyecto</h2>
+          <p class="section-lead" data-i18n="contact.lead"></p>
+          <ul class="benefits" id="benefits"></ul>
+          <div class="direct">
+            <p class="direct-title" data-i18n="contact.direct">¿Prefieres escribirme directo?</p>
+            <a class="direct-link" href="https://wa.me/527223659578" target="_blank" rel="noopener">
+              <span class="dl-icon wa"><i data-lucide="message-circle" aria-hidden="true"></i></span>
+              <span><small data-i18n="contact.whatsapp">WhatsApp</small><strong>+52 722 365 9578</strong></span>
+            </a>
+            <a class="direct-link" href="mailto:lextiz52@gmail.com">
+              <span class="dl-icon"><i data-lucide="mail" aria-hidden="true"></i></span>
+              <span><small data-i18n="contact.email">Correo</small><strong>lextiz52@gmail.com</strong></span>
+            </a>
           </div>
-          <a class="btn light" href="https://github.com/Lextiz-0" target="_blank" rel="noopener"><i data-lucide="github" aria-hidden="true"></i><span>Ver mi GitHub</span></a>
+        </div>
+
+        <div class="survey reveal" style="--i:1" id="survey" aria-live="polite">
+          <div class="survey-top">
+            <span class="survey-step mono" id="surveyStep"></span>
+            <div class="survey-bar" aria-hidden="true"><span id="surveyBar"></span></div>
+          </div>
+          <form id="surveyForm" novalidate>
+            <div class="survey-body" id="surveyBody"></div>
+            <p class="survey-error" id="surveyError" role="alert"></p>
+            <div class="survey-nav" id="surveyNav">
+              <button type="button" class="btn ghost sm" id="surveyBack"><i data-lucide="arrow-left" aria-hidden="true"></i><span data-i18n="survey.back">Atrás</span></button>
+              <button type="submit" class="btn primary sm" id="surveyNext"><span id="surveyNextLabel">Siguiente</span><i data-lucide="arrow-right" aria-hidden="true"></i></button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -184,13 +216,17 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© <span id="year"></span> Lextiz_0 · Hecho en Ciudad de México</p>
-      <a href="#top" class="footer-link">Volver arriba <i data-lucide="arrow-up" aria-hidden="true"></i></a>
+      <p>© <span id="year"></span> Lextiz_0 · <span data-i18n="footer.made">Hecho en Ciudad de México</span></p>
+      <div class="footer-links">
+        <a href="https://github.com/Lextiz-0" class="footer-link" target="_blank" rel="noopener"><i data-lucide="github" aria-hidden="true"></i> GitHub</a>
+  <a href="#top" class="footer-link"><span data-i18n="footer.top">Volver arriba</span> <i data-lucide="arrow-up" aria-hidden="true"></i></a>
+      </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="i18n.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

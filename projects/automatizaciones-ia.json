@@ -7,5 +7,19 @@
     "GitHub"
   ],
   "status": "Planeado",
-  "icon": "bot"
+  "icon": "bot",
+  "translations": {
+    "en": {
+      "name": "AI automations",
+      "description": "Scripts and workflows that use artificial intelligence to save time on repetitive tasks."
+    },
+    "pt": {
+      "name": "Automações com IA",
+      "description": "Scripts e fluxos que usam inteligência artificial para economizar tempo em tarefas repetitivas."
+    },
+    "fr": {
+      "name": "Automatisations avec IA",
+      "description": "Scripts et flux qui utilisent l’intelligence artificielle pour gagner du temps sur les tâches répétitives."
+    }
+  }
 }

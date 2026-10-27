@@ -33,6 +33,21 @@ Sube un archivo `.json` nuevo a la carpeta `projects/`. Aparece en el sitio auto
 - `status`: `Terminado`, `En desarrollo` o `Planeado`.
 - `icon`: cualquier nombre de [Lucide](https://lucide.dev/icons/) (opcional).
 - `url` y `repo`: opcionales.
+- `translations`: opcional. Nombre y descripción en otros idiomas (`en`, `pt`, `fr`). Si falta, se muestra el texto en español.
+
+```json
+"translations": {
+  "en": { "name": "Project name", "description": "Short description" }
+}
+```
+
+## Idiomas
+
+El sitio está en español, inglés, portugués y francés. Todos los textos están en `i18n.js`. Para agregar otro idioma, copia el bloque `es`, cambia la clave (por ejemplo `it`) y traduce los textos.
+
+## Cotizaciones
+
+La sección **Cotizar** tiene una encuesta de 5 pasos. Al terminarla se escribe un mensaje con las respuestas y el visitante lo envía con un clic por WhatsApp o correo. El número y el correo están al inicio de `app.js`, en `CONTACT`.
 
 Las imágenes u otros archivos van en `assets/` y se publican tal cual.
 
