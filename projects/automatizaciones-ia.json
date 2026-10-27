@@ -1,0 +1,11 @@
+{
+  "name": "Automatizaciones con IA",
+  "description": "Scripts y flujos que usan inteligencia artificial para ahorrar tiempo en tareas repetitivas.",
+  "tech": [
+    "Python",
+    "IA",
+    "GitHub"
+  ],
+  "status": "Planeado",
+  "icon": "bot"
+}

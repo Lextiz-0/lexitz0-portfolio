@@ -1,0 +1,91 @@
+# Integración y despliegue continuo del portafolio.
+# Cada push a main (incluido "Add files via upload" desde la web de GitHub):
+#   1. Detecta qué archivos son nuevos o cambiaron
+#   2. Valida y compila el sitio en ./dist
+#   3. Publica el resultado en GitHub Pages
+name: Compilar y publicar sitio
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Detectar cambios y compilar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detectar archivos nuevos y modificados
+        id: changes
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE" 2>/dev/null; then
+            BEFORE=$(git rev-list --max-parents=0 HEAD | tail -n 1)
+          fi
+          git diff --name-status --no-renames "$BEFORE" HEAD > changes.txt || true
+          ADDED=$(awk '$1=="A"{print $2}' changes.txt)
+          MODIFIED=$(awk '$1=="M"{print $2}' changes.txt)
+          {
+            echo "added<<EOF"; echo "$ADDED"; echo "EOF"
+            echo "modified<<EOF"; echo "$MODIFIED"; echo "EOF"
+            echo "message<<EOF"; git log -1 --format=%B; echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo "## Cambios detectados"
+            echo ""
+            echo "**Archivos nuevos:** $(echo "$ADDED" | grep -c . || true)"
+            echo "$ADDED" | sed '/^$/d; s/^/- 🆕 `/; s/$/`/'
+            echo ""
+            echo "**Archivos modificados:** $(echo "$MODIFIED" | grep -c . || true)"
+            echo "$MODIFIED" | sed '/^$/d; s/^/- ✏️ `/; s/$/`/'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validar y compilar
+        env:
+          ADDED_FILES: ${{ steps.changes.outputs.added }}
+          MODIFIED_FILES: ${{ steps.changes.outputs.modified }}
+          COMMIT_MESSAGE: ${{ steps.changes.outputs.message }}
+        run: node scripts/build.mjs
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir artefacto del sitio
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    name: Publicar en GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Desplegar
+        id: deployment
+        uses: actions/deploy-pages@v4

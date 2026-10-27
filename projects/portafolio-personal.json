@@ -1,0 +1,11 @@
+{
+  "name": "Portafolio personal",
+  "description": "Sitio web para presentar habilidades, proyectos y experiencia como programador.",
+  "tech": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "status": "En desarrollo",
+  "icon": "briefcase"
+}

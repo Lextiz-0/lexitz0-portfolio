@@ -1,0 +1,11 @@
+{
+  "name": "Herramientas para Roblox",
+  "description": "Scripts y módulos Luau para acelerar el desarrollo de juegos en Roblox Studio.",
+  "tech": [
+    "Luau",
+    "Roblox",
+    "Git"
+  ],
+  "status": "Planeado",
+  "icon": "gamepad-2"
+}

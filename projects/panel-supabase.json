@@ -1,0 +1,11 @@
+{
+  "name": "Panel con Supabase",
+  "description": "Aplicación web con autenticación, base de datos y panel de administración.",
+  "tech": [
+    "Python",
+    "Supabase",
+    "PostgreSQL"
+  ],
+  "status": "Planeado",
+  "icon": "database"
+}

@@ -1,47 +1,164 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lextiz_0 — Programador</title>
+  <title>Lextiz_0 — Constructor de software</title>
+  <meta name="description" content="Portafolio de Lextiz_0: desarrollo web, Python, Roblox, bases de datos, automatización e inteligencia artificial." />
+  <meta name="theme-color" content="#0e0f0c" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230e0f0c'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%23c8f169'>L_</text></svg>" />
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&f[]=satoshi@400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" />
   <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    (function(){var t=localStorage.getItem("theme");if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t;})();
+  </script>
 </head>
 <body>
-  <header class="hero">
-    <div class="container">
-      <p class="eyebrow">Portafolio</p>
-      <h1>Lextiz_0</h1>
-      <p class="subtitle">Programador y creador de experiencias digitales.</p>
-      <p class="lead">
-        Construyo software, herramientas y juegos. Me especializo en convertir ideas en
-        productos funcionales: aplicaciones web, automatizaciones, sistemas para Roblox,
-        bases de datos y soluciones apoyadas en inteligencia artificial.
-      </p>
-      <div class="hero-actions">
-        <a class="btn primary" href="#skills">Ver habilidades</a>
-        <a class="btn" href="#projects">Proyectos</a>
-      </div>
+  <a class="skip" href="#main">Saltar al contenido</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="wordmark" href="#top" aria-label="Lextiz_0, inicio">Lextiz<span>_0</span></a>
+      <nav aria-label="Principal">
+        <ul class="nav-links">
+          <li><a href="#skills">Habilidades</a></li>
+          <li><a href="#projects">Proyectos</a></li>
+          <li><a href="#pipeline">Despliegue</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Cambiar tema">
+        <i data-lucide="sun-moon" aria-hidden="true"></i>
+      </button>
     </div>
   </header>
-  <main>
-    <section id="skills" class="section">
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Constructor de software · CDMX</p>
+          <h1>Convierto ideas en <em>productos que funcionan.</em></h1>
+          <p class="lead">Aplicaciones web, automatizaciones, sistemas para Roblox, bases de datos y soluciones con inteligencia artificial — de la arquitectura al despliegue.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#projects">Ver proyectos <i data-lucide="arrow-down-right" aria-hidden="true"></i></a>
+            <a class="btn ghost" href="#skills">Qué puedo hacer</a>
+          </div>
+        </div>
+
+        <aside class="deploy-card" aria-labelledby="deploy-title">
+          <div class="deploy-head">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="mono muted" id="deploy-title">último despliegue</span>
+          </div>
+          <dl class="deploy-body" id="deployInfo">
+            <div><dt>estado</dt><dd><span class="status-dot"></span> en línea</dd></div>
+            <div><dt>commit</dt><dd class="skeleton">&nbsp;</dd></div>
+            <div><dt>mensaje</dt><dd class="skeleton">&nbsp;</dd></div>
+            <div><dt>publicado</dt><dd class="skeleton">&nbsp;</dd></div>
+          </dl>
+          <div class="deploy-files" id="deployFiles" hidden></div>
+        </aside>
+      </div>
+
       <div class="container">
-        <h2>Lo que puedo hacer</h2>
-        <p class="section-lead">Desarrollo software de principio a fin: desde la idea y la arquitectura hasta el código, la base de datos y el despliegue.</p>
-        <div class="cards" id="skills-grid"></div>
+        <ul class="stats" id="stats" aria-label="Resumen de proyectos">
+          <li><strong data-stat="total">–</strong><span>proyectos</span></li>
+          <li><strong data-stat="done">–</strong><span>terminados</span></li>
+          <li><strong data-stat="wip">–</strong><span>en desarrollo</span></li>
+          <li><strong data-stat="tech">–</strong><span>tecnologías</span></li>
+        </ul>
       </div>
     </section>
+
+    <section id="skills" class="section">
+      <div class="container">
+        <header class="section-head">
+          <p class="kicker mono">01 / habilidades</p>
+          <h2>Lo que puedo hacer</h2>
+          <p class="section-lead">Desarrollo software de principio a fin: idea, arquitectura, código, base de datos y despliegue.</p>
+        </header>
+        <div class="skills" id="skills-grid"></div>
+      </div>
+    </section>
+
     <section id="projects" class="section alt">
       <div class="container">
-        <h2>Proyectos</h2>
-        <p class="section-lead">Este gráfico se actualiza con cada proyecto terminado. Los datos provienen de <code>projects.json</code>; más adelante puede conectarse a Supabase para actualizarse automáticamente.</p>
-        <div class="chart-card"><canvas id="projectsChart"></canvas></div>
-        <div class="cards" id="projects-grid"></div>
+        <header class="section-head row">
+          <div>
+            <p class="kicker mono">02 / proyectos</p>
+            <h2>Proyectos</h2>
+            <p class="section-lead">Cada archivo en la carpeta <code>projects/</code> aparece aquí automáticamente tras el siguiente despliegue.</p>
+          </div>
+          <div class="filters" role="group" aria-label="Filtrar por estado" id="filters">
+            <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">Todos</button>
+            <button type="button" class="chip" data-filter="Terminado" aria-pressed="false">Terminados</button>
+            <button type="button" class="chip" data-filter="En desarrollo" aria-pressed="false">En desarrollo</button>
+            <button type="button" class="chip" data-filter="Planeado" aria-pressed="false">Planeados</button>
+          </div>
+        </header>
+
+        <div class="projects-layout">
+          <div class="projects" id="projects-grid" aria-live="polite">
+            <article class="project skeleton-card"></article>
+            <article class="project skeleton-card"></article>
+          </div>
+          <aside class="chart-card" aria-labelledby="chart-title">
+            <h3 id="chart-title">Tecnologías más usadas</h3>
+            <p class="muted small">Calculado a partir de todos los proyectos.</p>
+            <div class="chart-wrap"><canvas id="projectsChart" role="img" aria-label="Gráfica de proyectos por tecnología"></canvas></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="pipeline" class="section">
+      <div class="container">
+        <header class="section-head">
+          <p class="kicker mono">03 / despliegue continuo</p>
+          <h2>Se actualiza solo</h2>
+          <p class="section-lead">Este sitio se compila y publica con GitHub Actions cada vez que se sube un archivo al repositorio. Sin pasos manuales.</p>
+        </header>
+        <ol class="steps">
+          <li>
+            <span class="step-n mono">1</span>
+            <i data-lucide="upload" aria-hidden="true"></i>
+            <h3>Subes un archivo</h3>
+            <p>Un proyecto nuevo en <code>projects/</code>, una imagen en <code>assets/</code> o un cambio de diseño.</p>
+          </li>
+          <li>
+            <span class="step-n mono">2</span>
+            <i data-lucide="scan-search" aria-hidden="true"></i>
+            <h3>Se detecta el cambio</h3>
+            <p>El flujo identifica qué archivos son nuevos o cambiaron y los registra en el resumen.</p>
+          </li>
+          <li>
+            <span class="step-n mono">3</span>
+            <i data-lucide="hammer" aria-hidden="true"></i>
+            <h3>Se valida y compila</h3>
+            <p>Revisa que cada proyecto tenga los campos necesarios y genera la versión final del sitio.</p>
+          </li>
+          <li>
+            <span class="step-n mono">4</span>
+            <i data-lucide="globe" aria-hidden="true"></i>
+            <h3>Se publica</h3>
+            <p>GitHub Pages sirve la nueva versión en uno o dos minutos.</p>
+          </li>
+        </ol>
       </div>
     </section>
   </main>
-  <footer><div class="container"><p>© <span id="year"></span> Lextiz_0</p></div></footer>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Lextiz_0</p>
+      <a href="https://github.com/Lextiz-0" class="footer-link"><i data-lucide="github" aria-hidden="true"></i> GitHub</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
