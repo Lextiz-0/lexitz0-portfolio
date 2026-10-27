@@ -164,8 +164,9 @@ function renderDeploy(info) {
     <div><dt>mensaje</dt><dd title="${esc(info.message)}">${esc(info.message)}</dd></div>
     <div><dt>publicado</dt><dd title="${date.toLocaleString("es-MX")}">${timeAgo(info.builtAt)}</dd></div>`;
 
-  const added = (info.added || []).slice(0, 4);
-  const modified = (info.modified || []).slice(0, Math.max(0, 4 - added.length));
+  const visible = (f) => !/(^|\/)\./.test(f) && !f.startsWith("scripts/");
+  const added = (info.added || []).filter(visible).slice(0, 4);
+  const modified = (info.modified || []).filter(visible).slice(0, Math.max(0, 4 - added.length));
   if (added.length || modified.length) {
     const box = $("#deployFiles");
     box.hidden = false;
